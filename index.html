@@ -99,10 +99,20 @@ function send(){
     r="Teacher: Late kyun aaye? Student: Sir, sapne mein padhai kar raha tha! 😄";
   }else if(t.includes("help")||t.includes("madad")){
     r="Abhi main basic assistant hoon. Main greeting, time, date aur joke mein help kar sakta hoon.";
+    
+  }else if(t.includes("python")||t.includes("coding")||t.includes("programming")){
+    r="Coding seekhne ke liye basics se shuru karo. 😊 Tum C ya Python mein se kiski help chahte ho?";
+  }else if(t.includes("padhai")||t.includes("study")||t.includes("exam")){
+    r="Padhai ko chhote topics mein baanto aur roz revision karo. 📚 Kis subject mein help chahiye?";
+  }else if(t.includes("sad")||t.includes("udaas")||t.includes("pareshan")){
+    r="Agar tum pareshan ho, to aaram se bata sakte ho kya hua. Main sunne aur madad karne ki koshish karungi. 😊";
+  }else if(t.includes("thank")||t.includes("shukriya")||t.includes("dhanyavaad")){
+    r="Tumhara swagat hai! 😊";
+  }else if(t.includes("free fire")||t.includes("gaming")||t.includes("game")){
+    r="Gaming tips aur video ideas mein madad kar sakti hoon. 🎮 Tum kis game ke baare mein poochna chahte ho?";
   }else{
-    r="Tumne kaha: "+q+"\n\nAbhi main basic mode mein hoon. Aage hum free AI model jodkar smart replies laane ki koshish karenge.";
+    r="Main Madhu AI hoon 😊 Abhi main kuch topics par jawab de sakti hoon. Apna sawaal thoda aur detail mein poochho.";
   }
-
   lastReply=r;
   add(r,"bot");
 }
