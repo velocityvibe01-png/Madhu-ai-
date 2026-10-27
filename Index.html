@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Madhu </title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;background:#0b1020;color:white;
+  font-family:Arial,sans-serif
+}
+header{
+  text-align:center;padding:22px;
+  background:#151d35
+}
+header h2{margin:0 0 7px}
+header p{color:#b7c5e5;margin:0}
+#chat{padding:15px;height:65vh;overflow-y:auto}
+.msg{
+  padding:12px;margin:10px 0;
+  border-radius:14px;max-width:88%;
+  white-space:pre-wrap;overflow-wrap:anywhere
+}
+.bot{background:#202c48}
+.user{background:#4169e1;margin-left:auto}
+#bottom{position:sticky;bottom:0;background:#151d35;padding:12px}
+#form{display:flex;gap:8px}
+input{
+  flex:1;min-width:0;padding:13px;
+  border-radius:12px;border:1px solid #39496b;
+  background:#0b1020;color:white;font-size:16px
+}
+button{
+  border:0;border-radius:12px;padding:12px;
+  background:#6687ff;color:white;font-size:15px
+}
+.tools{display:flex;gap:10px;margin-top:10px}
+</style>
+</head>
+<body>
+<header>
+  <h2>🤖 Madhu </h2>
+  <p>My Personal Assistant</p>
+</header>
+
+<div id="chat">
+  <div class="msg bot">
+    Namaste! 👋 Main Madhu hoon.
+    Mujhe message bhejkar dekho!
+  </div>
+</div>
+
+<div id="bottom">
+  <div id="form">
+    <input id="input" placeholder="Yahan likho...">
+    <button onclick="send()">Send</button>
+  </div>
+  <div class="tools">
+    <button onclick="listen()">🎤 Bolo</button>
+    <button onclick="speak()">🔊 Suno</button>
+    <button onclick="clearChat()">Clear</button>
+  </div>
+</div>
+
+<script>
+const chat=document.getElementById("chat");
+const input=document.getElementById("input");
+let lastReply="Namaste! Main Madhu AI hoon.";
+
+function add(text,type){
+  const div=document.createElement("div");
+  div.className="msg "+type;
+  div.textContent=text;
+  chat.appendChild(div);
+  chat.scrollTop=chat.scrollHeight;
+}
+
+function send(){
+  const q=input.value.trim();
+  if(!q)return;
+  add(q,"user");
+  input.value="";
+  const t=q.toLowerCase();
+  let r;
+
+  if(/^(hi|hello|hey|namaste)\b/.test(t)||t==="नमस्ते"){
+    r="Namaste! 😊 Batao, main tumhari kya help karun?";
+  }else if(t.includes("naam")||t.includes("name")){
+    r="Mera naam Madhu hai! 🤖";
+  }else if(t.includes("kaise ho")||t.includes("how are you")){
+    r="Main taiyar hoon! Tum kaise ho?";
+  }else if(t.includes("time")||t.includes("samay")){
+    r="Abhi time hai "+new Date().toLocaleTimeString("hi-IN");
+  }else if(t.includes("date")||t.includes("tarikh")){
+    r="Aaj ki date hai "+new Date().toLocaleDateString("hi-IN");
+  }else if(t.includes("joke")||t.includes("chutkula")){
+    r="Teacher: Late kyun aaye? Student: Sir, sapne mein padhai kar raha tha! 😄";
+  }else if(t.includes("help")||t.includes("madad")){
+    r="Abhi main basic assistant hoon. Main greeting, time, date aur joke mein help kar sakta hoon.";
+  }else{
+    r="Tumne kaha: "+q+"\n\nAbhi main basic mode mein hoon. Aage hum free AI model jodkar smart replies laane ki koshish karenge.";
+  }
+
+  lastReply=r;
+  add(r,"bot");
+}
+
+input.addEventListener("keydown",e=>{
+  if(e.key==="Enter")send();
+});
+
+function speak(){
+  if(!("speechSynthesis" in window)){
+    add("Is browser mein voice output available nahi hai.","bot");
+    return;
+  }
+  speechSynthesis.cancel();
+  const msg=new SpeechSynthesisUtterance(lastReply);
+  msg.lang="hi-IN";
+  speechSynthesis.speak(msg);
+}
+
+function listen(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){
+    add("Voice input ke liye Chrome browser mein try karo.","bot");
+    return;
+  }
+  const rec=new SR();
+  rec.lang="hi-IN";
+  rec.onresult=e=>{
+    input.value=e.results[0][0].transcript;
+    send();
+  };
+  rec.onerror = (event) => {
+  add("Voice error: " + event.error, "bot");
+};
+  rec.start();
+}
+
+function clearChat(){
+  chat.innerHTML="";
+  lastReply="Chat clear ho gayi!";
+  add("Chat clear ho gayi! 😊 Naya message bhejo.","bot");
+}
+</script>
+</body>
+</html>
